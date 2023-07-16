@@ -17,12 +17,12 @@ b[l] += c, b[r + 1] -= c
 2. 数学证明：
 i = 0,1,2,...
 
-$$ l_freq(x) * 2 > i + 1 $$
+$$l\_freq(x) * 2 > i + 1$$
 
-$$ r_freq(x) * 2 > n - (i + 1) $$
+$$r\_freq(x) * 2 > n - (i + 1)$$
 
 l_freq 和 r_freq 数组合并为原数组，则：
-$$ (l_freq(x) + r_freq(x)) * 2 > n $$
+$$(l\_freq(x) + r\_freq(x)) * 2 > n$$
 所以 x 如果是左右两个数组的支配元素则一定是原数组的支配元素。
 
 从左到右枚举分割下标 $i$, 统计[0, i] 和[i + 1, n] 两个区间内的 x 数量，判断是否大于 len/2
@@ -31,7 +31,7 @@ $$ (l_freq(x) + r_freq(x)) * 2 > n $$
 https://leetcode.cn/problems/length-of-the-longest-valid-substring/solution/ha-xi-biao-shuang-zhi-zhen-pythonjavacgo-bcez/
 
 unordered_set + 双指针
-```
+```cpp
 class Solution {
 public:
     int longestValidSubstring(string word, vector<string> &forbidden) {
