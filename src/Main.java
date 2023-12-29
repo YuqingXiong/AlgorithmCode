@@ -15,19 +15,20 @@ public class Main {
 
         // ["MyLinkedList","addAtHead","deleteAtIndex","addAtHead","addAtHead","addAtHead","addAtHead","addAtHead","addAtTail","get","deleteAtIndex","deleteAtIndex"]
         //[[],[2],[1],[2],[7],[3],[2],[5],[5],[5],[6],[4]]
-        MyLinkedList myLinkedList = new MyLinkedList();
-        myLinkedList.addAtHead(2); // head->2
-        myLinkedList.deleteAtIndex(1); //
-        myLinkedList.addAtHead(2); // head->2
-        myLinkedList.addAtHead(7); // head->7->2
-        myLinkedList.addAtHead(3); // head->3->7->2
-        myLinkedList.addAtHead(2); // head->2->3->7->2
-        myLinkedList.addAtHead(5); // head->5->2->3->7->2
-        myLinkedList.addAtTail(5); // head->5->2->3->7->2->5
-        System.out.println(myLinkedList.get(5));
-        myLinkedList.deleteAtIndex(6);
-        myLinkedList.deleteAtIndex(4);
+//        MyLinkedList myLinkedList = new MyLinkedList();
+//        myLinkedList.addAtHead(2); // head->2
+//        myLinkedList.deleteAtIndex(1); //
+//        myLinkedList.addAtHead(2); // head->2
+//        myLinkedList.addAtHead(7); // head->7->2
+//        myLinkedList.addAtHead(3); // head->3->7->2
+//        myLinkedList.addAtHead(2); // head->2->3->7->2
+//        myLinkedList.addAtHead(5); // head->5->2->3->7->2
+//        myLinkedList.addAtTail(5); // head->5->2->3->7->2->5
+//        System.out.println(myLinkedList.get(5));
+//        myLinkedList.deleteAtIndex(6);
+//        myLinkedList.deleteAtIndex(4);
 
         // 1->2->7
+
     }
 }

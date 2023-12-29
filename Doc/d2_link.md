@@ -310,3 +310,64 @@ class MyLinkedList {
     }
 }
 ```
+# 206.反转链表
+https://leetcode.cn/problems/reverse-linked-list/
+
+用三个节点分别保存前一个节点，当前节点，后一个节点
+
+反转后的连接关系：
+**nextNode = curNode.next**
+
+curNode.next = prevNode
+
+prevNode = curNode
+
+curNode = nextNode
+
+提前存储 nextNode 可以简化代码
+
+因为遍历到最后一个元素时 curNode 会指向 null，而 nextNode 就无法获取了，如果写在最后，就会报错
+
+另一个角度：
+
+通过curNode获取nextNode更好，可以用curNode是否为空判断是否有nextNode
+
+通过nextNode获取nextNode还需要额外判断nextNode是否为空
+
+```java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null) return null;
+        ListNode prevNode = null, curNode, nextNode;
+        curNode = head;
+        while(curNode != null){
+            nextNode = curNode.next;
+            curNode.next = prevNode;
+            prevNode = curNode;
+            curNode = nextNode;
+        }
+        return prevNode;
+    }
+}
+```
+
+
+## 我的代码
+```java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null) return null;
+        ListNode prevNode = null, curNode, nextNode;
+        curNode = head;
+        nextNode = curNode.next;
+        while(curNode != null){
+            curNode.next = prevNode;
+            prevNode = curNode;
+            curNode = nextNode;
+            if(nextNode == null) break;
+            nextNode = nextNode.next;
+        }
+        return prevNode;
+    }
+}
+```
