@@ -371,3 +371,73 @@ class Solution {
     }
 }
 ```
+
+# 24.两两交换链表中的节点
+## 递归实现
+一条链表，从头节点开始，以两个节点为单位的遍历，当遍历到链表末端，没有节点或者只有一个节点的时候返回当前节点
+
+此时返回的节点returnNode是前两个节点的下一个节点，设前两个节点是 swap1Node，swap2Node
+
+**它们的关系是：**
+
+swap1Node，swap2Node = swap1Node.next，returnNode = swap2Node.next
+
+swap1Node->swap2Node->returnNode
+
+**当交换swap1Node和swap2Node时：**
+
+swap1Node.next = returnNode
+
+swap2Node.next = swap1Node  
+
+此时swap2Node 被换到前面去了，所以作为了新的头节点，将作为前两个的下一个节点返回
+```java
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        if(head == null || head.next == null) return head;
+        ListNode swap1Node = head;
+        ListNode swap2Node = swap1Node.next;
+        ListNode returnNode = swapPairs(swap2Node.next);
+        swap1Node.next = returnNode;
+        swap2Node.next = swap1Node;
+        return swap2Node;
+    }
+}
+```
+
+
+## 我的代码（迭代）
+prevNode->swap1Node->swap2Node->nextNode
+
+交换swap1Node和swap2Node的逻辑：
+
+prevNode.next = swap2Node;
+
+swap1Node.next = swap2Node.next;
+
+swap2Node.next = swap1Node;
+
+prevNode不好处理，因为第一个节点没有prevNode，这里需要特殊判断，或者增加一个哑节点
+
+```java
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        if(head == null || head.next == null) return head;
+        ListNode prevNode = null, swap1Node = head, swap2Node = head.next, nextNode;
+        while(swap1Node != null && swap1Node.next != null){
+            swap2Node = swap1Node.next;
+            
+            if(prevNode == null) head = swap2Node;
+            else prevNode.next = swap2Node;
+
+            swap1Node.next = swap2Node.next;
+            swap2Node.next = swap1Node;
+
+            prevNode = swap1Node;
+            swap1Node = swap1Node.next;
+            // System.out.println(swap1Node.val);
+        }
+        return head;
+    }
+}
+```
