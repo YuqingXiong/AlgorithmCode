@@ -1,4 +1,4 @@
-package d2_link.d4_swao_node_in_pairs;
+package d2_link.d4_swap_node_in_pairs;
 
 public class Solution_recursion {
     public ListNode swapPairs(ListNode head) {

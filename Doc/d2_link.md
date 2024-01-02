@@ -441,3 +441,82 @@ class Solution {
     }
 }
 ```
+
+# 19.删除链表的倒数第N个节点
+
+https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/
+
+解法的前提是只遍历一遍链表
+
+## 栈
+
+把所有元素都添加进栈里面，然后弹出 n 个元素，最后栈顶的元素就是需要删除节点的前驱节点
+
+添加哑元节点 dummy -> head
+
+可以避免判断删除头节点的情况
+
+```java
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        Deque<ListNode> stack = new LinkedList<ListNode>();
+        ListNode dummy = new ListNode(0, head); // 添加一个哑元节点
+        ListNode curNode = dummy;
+        while(curNode != null){
+            stack.push(curNode);
+            curNode = curNode.next;
+        }
+
+        for(int i = 0; i < n; ++ i){
+            stack.pop();
+        }
+
+        ListNode prevNode = stack.peek();
+        prevNode.next = prevNode.next.next;
+        return dummy.next;
+    }
+}
+```
+
+## 快慢指针
+
+两个指针一个在前一个在后，前面的指针先走 n 步，后面的指针再和前面的指针同步，当到达末尾时后面的指针就执行了删除节点
+
+```java
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0, head); // 添加一个哑元节点
+        ListNode first = head;
+        for(int i = 0; i < n; ++ i){
+            first = first.next;
+        }
+
+        ListNode second = dummy;
+        while(first != null){
+            first = first.next;
+            second = second.next;
+        }
+        
+        second.next = second.next.next;
+        return dummy.next;
+    }
+}
+```
+
+## 我的代码
+
+利用递归实现的栈：
+```java
+class Solution {
+    private int back = 0;
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null) return head;
+        
+        head.next = removeNthFromEnd(head.next, n);
+        ++back;
+        
+        if(n == back) return head.next;
+        return head;
+    }
+}
+```
