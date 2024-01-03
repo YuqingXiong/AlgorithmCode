@@ -260,3 +260,48 @@ class Solution {
     }
 }
 ```
+
+# 1.两数之和
+
+从数组中选两个数使其之和等于目标值
+
+先选出一个值，nums[i], 在判断 target-nums[i] 是否存在数组中
+
+可以用hashMap存储除了当前了值的其他值和对应下标
+
+注意这里要前判断是否包含，再加入table中，否则当前值可能会被选两次
+
+```java
+class Solution {
+public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> table = new HashMap<>();
+        for(int i = 0; i < nums.length; ++ i){
+            int num = target - nums[i];
+            if(table.containsKey(num)){
+                return new int[]{i, table.get(num)};
+            }
+            table.put(nums[i], i);
+        }
+        return null;
+    }
+}
+```
+
+## 我的代码
+```java
+public class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> table = new HashMap<>();
+        int[] ans = new int[2];
+        for(int i = 0; i < nums.length; ++ i){
+            if(table.containsKey(target - nums[i])){
+                ans[0] = i;
+                ans[1] = table.get(target-nums[i]);
+                break;
+            }
+            table.put(nums[i], i);
+        }
+        return ans;
+    }
+}
+```
