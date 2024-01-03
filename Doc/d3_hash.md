@@ -109,3 +109,96 @@ class Solution {
     }
 }
 ```
+
+# 349.两个数组的交集
+
+## 排序后双指针
+两个排序后的数组找他们的公共元素可以用双指针的方式
+
+分别有两个指针指向两个数组，如果这两个指针指向的元素相同，则都前进一步，且比较之前是否已保存过
+
+如果不同，则指向较小的指针前进一步，因为数组是升序排序的，可能小数组的后面有较大的值能与当前另一个数组的较大值相同
+```java
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        List<Integer> res = new ArrayList<>();
+        int preSame = -1;
+        for(int i=0,j=0; i<nums1.length && j< nums2.length;){
+            if(nums1[i] == nums2[j]){
+                if(nums1[i] != preSame) {
+                    preSame = nums1[i];
+                    res.add(preSame);
+                }
+                ++i;
+                ++j;
+            }else if(nums1[i] < nums2[j]){
+                ++i;
+            }else{
+                ++j;
+            }
+        }
+        int len = res.size();
+        int[] ans = new int[len];
+        for (int i = 0; i < res.size(); i++) {
+            ans[i] = res.get(i);
+        }
+        return ans;
+    }
+}
+```
+
+## HashSet
+```java
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Set<Integer> set1 = new HashSet<>();
+        Set<Integer> set2 = new HashSet<>();
+        for (int num : nums1) {
+            set1.add(num);
+        }
+        for (int num : nums2) {
+            set2.add(num);
+        }
+
+        List<Integer> res = new ArrayList<>();
+        for (Integer value : set1) {
+            if(set2.contains(value)){
+                res.add(value);
+            }
+        }
+        int len = res.size();
+        int[] ans = new int[len];
+        for (int i = 0; i < res.size(); i++) {
+            ans[i] = res.get(i);
+        }
+        return ans;
+    }
+}
+```
+
+## 我的代码
+```java
+class Solution {
+     public int[] intersection(int[] nums1, int[] nums2) {
+        List<Integer> res = new ArrayList();
+        int[] table = new int[1000];
+        for(int i = 0; i < nums1.length; ++ i){
+            table[nums1[i]] = 1;
+        }
+        for(int i = 0; i < nums2.length; ++ i){
+            if(table[nums2[i]] == 1){
+                res.add(nums2[i]);
+                table[nums2[i]] = 0;
+            }
+        }
+        int len = res.size();
+        int[] ans = new int[len];
+        for (int i = 0; i < res.size(); i++) {
+            ans[i] = res.get(i);
+        }
+        return ans;
+    }
+}
+```
