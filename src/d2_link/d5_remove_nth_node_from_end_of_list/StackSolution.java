@@ -1,4 +1,4 @@
-package d2_link.remove_nth_node_from_end_of_list;
+package d2_link.d5_remove_nth_node_from_end_of_list;
 
 import java.util.Deque;
 import java.util.LinkedList;

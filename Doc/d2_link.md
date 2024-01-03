@@ -520,3 +520,62 @@ class Solution {
     }
 }
 ```
+
+# 面试题02.07.链表相交
+
+假设链表A与B相交部分的长度为 c, 不相交部分链表A为 a, 链表B为 b, 假设链表A比链表B短
+
+两个指针同时从A和B头节点出发，则指针A先走到尽头，这时将指针A移至链表B的头节点，再等指针B走到尾
+
+这样指针A就多走了b-a步，当指针B走到尾时，将指针B指向链表A的头节点，此时指针A,B距离交点的距离相同都是 a
+
+指针A,B再同时走，如果相等就找到了交点，否则说明两个链表不相交
+
+这种方法指针A,B都走了 a + b + c 步
+
+```java
+public class Solution {
+        public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
+        ListNode curNodeA = headA;
+        ListNode curNodeB = headB;
+        while(curNodeA != curNodeB){
+            curNodeA = curNodeA == null ? headB : curNodeA.next;
+            curNodeB = curNodeB == null ? headA : curNodeB.next;
+        }
+        return curNodeA;
+    }
+}
+```
+
+## 我的代码
+```java
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
+        ListNode tempB = headB, tempA = headA;
+        
+        // 短的链表先走到尾
+        while(headA != null && headB != null){
+            headA = headA.next;
+            headB = headB.next;
+        }
+        // 短的链表重定位到长的链表头
+        if(headA == null) headA = tempB;
+        if(headB == null) headB = tempA;
+        while(headA != null && headB != null){
+            headA = headA.next;
+            headB = headB.next;
+        }
+        // 长的链表重定位到短的链表头
+        if(headA == null) headA = tempB;
+        if(headB == null) headB = tempA;
+        while(headA != null && headB != null){
+            if(headA == headB) return headA;
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return null;
+    }
+}
+```
