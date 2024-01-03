@@ -202,3 +202,61 @@ class Solution {
     }
 }
 ```
+
+# 202.快乐数
+观察一个三位的最大数 999，它的每一位平方求和后为 243，并没有越变越大，在经历过足够次数的循环后就会回到原先经历过的数
+
+也就是说会经历一个循环数，需要判断这个循环是1引起的，还是因为不到1而有一个大循环
+
+## HashSet 判断循环
+```java
+public class Solution {
+    public boolean isHappy(int n) {
+        Set<Integer> table = new HashSet<>();
+        while(true){
+            int ans = 0;
+            while(n != 0){
+                int num = n % 10;
+                n = n / 10;
+                ans = ans + (num * num);
+            }
+            if(ans == 1){
+                return true;
+            }
+            if(table.contains(ans)){
+                return false;
+            }
+            table.add(ans);
+            n = ans;
+        }
+    }
+}
+```
+
+## 快慢指针判断循环
+
+```java
+class Solution {
+    public boolean isHappy(int n) {
+        int fast = n, slow = n;
+        while(true){
+            fast = getNext(getNext(fast));
+            slow = getNext(slow);
+            if(fast == 1){
+                return true;
+            }else if(fast == slow){
+                return false;
+            }
+        }
+    }
+    public static int getNext(int n){
+        int ans = 0;
+        while(n != 0){
+            int num = n % 10;
+            n /= 10;
+            ans += num * num;
+        }
+        return ans;
+    }
+}
+```
