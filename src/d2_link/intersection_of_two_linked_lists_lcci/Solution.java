@@ -1,5 +1,5 @@
 package d2_link.intersection_of_two_linked_lists_lcci;
-public class ListNode {
+class ListNode {
     int val;
     ListNode next;
 
