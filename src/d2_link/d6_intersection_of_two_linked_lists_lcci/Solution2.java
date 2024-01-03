@@ -1,4 +1,4 @@
-package d2_link.intersection_of_two_linked_lists_lcci;
+package d2_link.d6_intersection_of_two_linked_lists_lcci;
 
 public class Solution2 {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {

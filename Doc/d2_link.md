@@ -579,3 +579,54 @@ public class Solution {
     }
 }
 ```
+# 142.环形链表II
+
+假设 环入口 到头节点有 a 个节点
+
+1. 快慢指针，使得两个指针在环内相遇
+   - 此时 fast 走了 `2*slow` 步，而 `fast = slow + n*b`, b 为环的长度，则 `s=n*b` 
+   - 所以 slow 走的步数时 环的整数倍，此时 slow 再走 a 步就到了环的入口
+2. 如何让 slow 走 a 步？
+   - a 为头节点到环入口的步数，所以可以让头指针head和slow一起走
+   - 当 head 和 slow 相遇时，就都走了 a 步且到了环入口
+
+```java
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head, slow = head;
+        while(true){
+            if(fast == null || fast.next == null) return null;
+            fast = fast.next.next;
+            slow = slow.next;
+            if(fast == slow) break;
+        }
+        while(head != slow){
+            head = head.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+```
+
+
+## 我的代码
+```java
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if(head == null || head.next == null) return null;
+        ListNode fast = head.next.next, slow = head.next;
+        while(fast != slow){
+            if(fast == null || fast.next == null) return null;
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        System.out.println(slow.val);
+        while(head != slow){
+            head = head.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+```
