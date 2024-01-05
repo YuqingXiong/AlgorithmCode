@@ -332,3 +332,33 @@ class Solution {
     }
 }
 ```
+
+# 383.赎金信
+
+ransomNote 能否被 magazine 构成
+
+统计 magazine 里每个字母的个数，遍历 ransomNote，被其中的字母消耗，如果小于0，说明无法构成
+
+这里由于只有26个英文字母，可以用int数组代替Map，速度更快
+
+```java
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        Map<Character, Integer> table = new HashMap<>();
+        
+        for(int i = 0; i < magazine.length(); ++ i){
+            char ch = magazine.charAt(i);
+            table.put(ch, table.getOrDefault(ch, 0) + 1);
+        }
+
+        for(int i = 0; i < ransomNote.length(); ++ i){
+            char ch = ransomNote.charAt(i);
+            table.put(ch, table.getOrDefault(ch, 0) - 1);
+            if(table.get(ch) < 0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
