@@ -362,3 +362,44 @@ class Solution {
     }
 }
 ```
+
+# 15.三数之和
+
+## 排序后双指针
+
+不重复的要求，使得我们必须保证这三个数的顺序是i<j<k的
+
+同时，由于排序后的数组，当 i 固定时，我们可以 O(n) 得到这个数组中是否存在两个数 j,k之和满足目标值的
+
+因为如果小于目标值，说明 j 要增大；
+大于目标值，说明 k 要减小；
+
+同时需要剔除相同的数
+
+将多个数转为List集合：`List.of(Element e,...)`
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        for(int i = 0; i < nums.length; ++i){
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            int j = i + 1, k = nums.length - 1;
+            while(j < k){
+                int sum = nums[i] + nums[j] + nums[k];
+                if(sum < 0) ++j;
+                else if(sum > 0) --k;
+                else{
+                    ans.add(List.of(nums[i], nums[j], nums[k]));
+                    ++j;
+                    --k;
+                    while(nums[j] == nums[j-1] && j < k) ++j;
+                    while(nums[k] == nums[k+1] && j < k) --k;
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
