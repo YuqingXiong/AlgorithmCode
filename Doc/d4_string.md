@@ -93,5 +93,67 @@ class Solution {
     }
 }
 ```
+
 ## 源字符串上操作
 
+# 28.实现strStr
+找第一个匹配子串的下标
+
+## KMP
+
+求Next数组：
+
+1. Next 数组长度为 n + 1，用于获取 next[n]，也就是整个字符串相同前后缀的长度
+2. 刚开始 Next[0] = -1, j = -1，便于观察当前是否已经退回到下标 0 了
+3. 可以求所有匹配位置，在 while 循环里判断 j 是否到n，然后让 j = next[j]，继续匹配
+
+```java
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int n = needle.length(), m = haystack.length();
+        int[] next = new int[n+1];
+
+        next[0] = -1;
+        int i = 0, j = -1;
+        while(i < n){
+            if(j == -1 || needle.charAt(j) == needle.charAt(i)){
+                ++j;
+                ++i;
+                next[i] = j;
+            }else{
+                j = next[j];
+            }
+        }
+
+        i = 0;
+        j = 0;
+        while(i < m && j < n){
+            if(j == -1 || haystack.charAt(i) == needle.charAt(j)){
+                ++i;
+                ++j;
+            }else{
+                j = next[j];
+            }
+        }
+        if(j == n){
+            return i - n;
+        }
+        return -1;
+    }
+}
+```
+
+## 暴力
+```java
+public class Solution {
+    public int strStr(String haystack, String needle) {
+        for(int i = 0; i < haystack.length(); ++i){
+            String compare = haystack.substring(i, Math.min(i+needle.length(), haystack.length()));
+            if(compare.equals(needle)){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+```
