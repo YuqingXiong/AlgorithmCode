@@ -22,3 +22,52 @@ class Solution {
     }
 }
 ```
+
+# 541.反转字符串 II
+
+```java
+class Solution {
+    public String reverseStr(String s, int k) {
+        char[] str = s.toCharArray();
+        int n = str.length;
+        int l = 0;
+        while(l < n){
+            int r = (l-1) + k;
+            if(r >= n) r = n - 1;
+            int nextl = (l-1)+2*k+1;
+            while(l < r){
+                char ch = str[l];
+                str[l] = str[r];
+                str[r] = ch;
+                ++l;
+                --r;
+            }
+            l = nextl;
+        }
+        return new String(str);
+    }
+}
+```
+
+# 122.路径加密/替换空格
+
+API:
+
+```java
+path.replaceAll("\\.", " ");
+```
+
+```java
+class Solution {
+    public String pathEncryption(String path) {
+        char[] p = path.toCharArray();
+        for(int i = 0; i < p.length; ++ i){
+            if(p[i] == '.'){
+                p[i] = ' ';
+            }
+        }
+        return new String(p);
+    }
+}
+```
+
