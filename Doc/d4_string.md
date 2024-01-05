@@ -70,4 +70,28 @@ class Solution {
     }
 }
 ```
+# 182.动态口令/左旋字符串
+
+## substring(begin, len)
+```java
+class Solution {
+    public String dynamicPassword(String password, int target) {
+        int n = password.length();
+        return password.substring(target, n) + password.substring(0, target);
+    }
+}
+```
+## StringBuilder
+```java
+class Solution {
+    public String dynamicPassword(String password, int target) {
+        StringBuilder res = new StringBuilder();
+        for(int i = target; i < password.length() + target; ++i){
+            res.append(password.charAt(i % password.length()));
+        }
+        return res.toString();
+    }
+}
+```
+## 源字符串上操作
 
