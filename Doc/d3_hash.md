@@ -403,3 +403,49 @@ class Solution {
     }
 }
 ```
+
+# 18.四数之和
+
+与三数之和相同，遍历前n-2个数，后两个数用双指针
+
+由于数组时升序的，所以有优化之处：
+1. 当第i个数开始的最小四元组：i + (i+1) + (i+2) + (i+3)>target后，最小的都大，则后面的越来越大，就不可能出现等于target的四元组了
+2. 当第i个数开始的最大四元组：i + (n-3) + (n-2) + (n-3)<target后，最大的都小，则这个i选得太小，后面的遍历不用看了，直接让i++,第一个数变大一点才有可能等于target
+
+注意：
+1. 要用 n-3,n-2提前限制下标，否则四个数相加会超出下标
+2. 数据会超过 int，需要强转为 long
+3. 注意判断 j 时，i 已经固定了，所以最大最小四元组的计算有一些改变
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = nums.length;
+        for(int i = 0; i < n - 3; ++ i){
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            if((long) nums[i] + nums[i+1] + nums[i+2] + nums[i+3] > target) break;
+            if((long) nums[i] + nums[n-3] + nums[n-2] + nums[n-1] < target) continue;
+            for(int j = i + 1; j < n - 2; ++ j){
+                if(j > i + 1 && nums[j] == nums[j-1]) continue;
+                if((long) nums[i] + nums[j] + nums[j+1] + nums[j+2] > target) break;
+                if((long) nums[i] + nums[j] + nums[n-2] + nums[n-1] < target) continue;
+                int k = j + 1, z = n - 1;
+                while(k < z){
+                    long sum = (long) nums[i] + nums[j] + nums[k] + nums[z];
+                    if(sum < target) ++k;
+                    else if(sum > target) --z;
+                    else{
+                        ans.add(List.of(nums[i], nums[j], nums[k], nums[z]));
+                        ++k;
+                        --z;
+                        while(k < z && nums[k] == nums[k-1]) ++k;
+                        while(k < z && nums[z] == nums[z+1]) --z;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
