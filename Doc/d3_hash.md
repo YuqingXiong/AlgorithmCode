@@ -305,3 +305,30 @@ public class Solution {
     }
 }
 ```
+
+# 454.四数相加 II
+从A,B,C,D 四个数组中各取一个数，使得和为0
+
+最暴力是循环四次，我们可以把数组 D 的值哈希，这样可以 O(1) 判断是否存在值，这样是循环三次
+
+如果将它们分为两组，A,B一组，C,D一组，分别将它们的和哈希，这样只有循环两次
+
+```java
+class Solution {
+    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        Map<Integer, Integer> table = new HashMap<>();
+        for(int num1 : nums1){
+            for(int num2 : nums2){
+                table.put(num1 + num2, table.getOrDefault(num1 + num2, 0) + 1);
+            }
+        }
+        int ans = 0;
+        for(int num3 : nums3){
+            for(int num4 : nums4){
+                ans += table.getOrDefault(-(num3+num4), 0);
+            }
+        }
+        return ans;
+    }
+}
+```
