@@ -14,7 +14,7 @@
   - 24.两两交换链表中的节点
   - 19.删除链表的倒数第N个节点
   - 面试题02.07.链表相交
-  - 142.环形链表II
+  - 142.环形链表  II
 - 哈希题目与题解：[d3_hash](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d3_hash.md)
   - 242.有效的字母异位词
   - 349.两个数组的交集
@@ -24,10 +24,12 @@
   - 383.赎金信
   - 15.三数之和
   - 18.四数之和
-- 字符串题目与题解：[d4_string]()
+- 字符串题目与题解：[d4_string](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d4_string.md)
   - 344.反转字符串
   - 541.反转字符串 II
   - 122.路径加密/替换空格
   - 182.动态口令/左旋字符串
   - 28.实现strStr
   - 459.重复的子字符串
+- 栈和队列题目与题解: [d5_stack_queue](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d5_stack_queue.md)
+  - 232.用栈实现队列
