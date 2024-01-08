@@ -33,3 +33,4 @@
   - 459.重复的子字符串
 - 栈和队列题目与题解: [d5_stack_queue](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d5_stack_queue.md)
   - 232.用栈实现队列
+  - 225.用队列实现栈
