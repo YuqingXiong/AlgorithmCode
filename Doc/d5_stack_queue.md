@@ -153,3 +153,73 @@ class MyStack {
     }
 }
 ```
+
+# 20.有效的括号
+
+题目的描述：
+
+交错的括号不能出现，但是包含的括号可以出现，例如：[(]) 是 false，但是 [()] 是 true
+
+解法：
+- 当遇到左括号的时候入栈
+- 当遇到右括号的时候，取出栈顶元素，判断能否与右括号匹配
+
+注意：
+- 简化代码的方法，遇到左括号，存对应的右括号
+- 到时候遇到右括号，需要判断栈顶和右括号是否匹配的时候，直接判断是否相等就行，而不用三个分别判断
+
+```java
+class Solution {
+    public boolean isValid(String s) {
+        Deque<Character> stack = new ArrayDeque<>();
+        for(int i = 0; i < s.length(); ++ i){
+            char ch = s.charAt(i);
+            if(ch == '(') stack.push(')');
+            else if(ch == '{') stack.push('}');
+            else if(ch == '[') stack.push(']');
+            else if(stack.isEmpty() || stack.pop() != ch){
+                return false;
+            }
+        }
+        if(!stack.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+}
+```
+
+## 我的代码
+
+```java
+class Solution {
+    public boolean isValid(String s) {
+        Deque<Character> stack = new ArrayDeque<>();
+        for(int i = 0; i < s.length(); ++ i){
+            char ch = s.charAt(i);
+            if(ch == ')' || ch == '}' || ch == ']'){
+                if(stack.isEmpty()){
+                    return false;
+                }
+                char top = stack.peek();
+                if((top == '(' && ch == ')') 
+                || (top == '{' && ch == '}')
+                || (top == '[' && ch == ']')){
+                    stack.pop();
+                }else{
+                    return false;
+                }
+            }else{
+                stack.push(ch);
+            }
+        }
+        if(!stack.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+}
+```
+
+
+
