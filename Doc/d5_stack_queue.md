@@ -221,5 +221,49 @@ class Solution {
 }
 ```
 
+# 1047.删除字符串中的所有相邻重复项
+
+括号匹配的另一种描述形式
+
+可以用StringBuilder简化代码，字符串本身提供删除指定索引位置的API:
+
+```java
+class Solution {
+    public String removeDuplicates(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (sb.length() != 0 && sb.charAt(sb.length() - 1) == c) {
+                sb.deleteCharAt(sb.length() - 1);
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+}
+```
+
+```java
+class Solution {
+    public String removeDuplicates(String s) {
+        Deque<Character> stack = new ArrayDeque<>();
+        for(int i = 0; i < s.length(); ++ i){
+            char ch = s.charAt(i);
+            if(stack.isEmpty() || stack.peek() != ch){
+                stack.push(ch);
+            }else{
+                stack.pop();
+            }
+        }
+        char[] ans = new char[stack.size()];
+        int idx = stack.size() - 1;
+        while(!stack.isEmpty()){
+            ans[idx--] = stack.pop();
+        }
+        return new String(ans);
+    }
+}
+```
+
 
 
