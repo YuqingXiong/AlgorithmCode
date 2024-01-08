@@ -265,5 +265,32 @@ class Solution {
 }
 ```
 
+# 150.逆波兰表达式求值
+
+- 遇到运算符则从栈顶取两个数字出来，第一个数字是运算符右边的，第二个才是左边的，然后根据运算符的类型，把计算结果存回栈中，便于后续的计算
+- 如果遇到数字，就存入栈中，等待后续被取出
+
+```java
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        for(int i = 0; i < tokens.length; ++ i){
+            String token = tokens[i];
+            if(token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/")){
+                int r = stack.pop();
+                int l = stack.pop();
+                if(token.equals("+")) stack.push(l+r);
+                else if(token.equals("-")) stack.push(l-r);
+                else if(token.equals("*")) stack.push(l*r);
+                else stack.push(l/r);
+            }else{
+                stack.push(Integer.parseInt(token));
+            }
+        }
+        return stack.pop();
+    }
+}
+```
+
 
 
