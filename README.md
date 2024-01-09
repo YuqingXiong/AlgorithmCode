@@ -42,3 +42,4 @@
 - 二叉树题目与题解：[d6_binary_tree](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d6_binary_tree.md)
   - 144.二叉树的前序遍历
   - 94.二叉树的中序遍历
+  - 145.二叉树的后序遍历

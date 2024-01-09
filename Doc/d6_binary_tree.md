@@ -88,3 +88,54 @@ class Solution {
 }
 ```
 
+# 145.二叉树的后序遍历
+
+## 递归
+
+```java
+class Solution {
+    List<Integer> ans = new ArrayList<>();
+    public List<Integer> postorderTraversal(TreeNode root) {
+        if(root == null) return ans;
+        postorderTraversal(root.left);
+        postorderTraversal(root.right);
+        ans.add(root.val);
+        return ans;
+    }
+}
+```
+
+## 迭代
+后序遍历：左-右-中
+
+- 遍历完左子树后，需要从栈中获得当前节点，来获得右子树，但是后续还需要遍历中间节点，所以需要加回去栈中
+- 但是当左右子树遍历完，就不需要再加回栈中了，只需要记录中间节点的值了
+- 通过prev记录上一个遍历的右节点，然后判断当前节点的右节点和prev是否指向同一个，就可以判断当前节点是否还需要继续遍历右节点了
+
+```java
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+         List<Integer> ans = new ArrayList<>();
+        if(root == null) return ans;
+        
+        Deque<TreeNode> stack = new LinkedList<>();
+        TreeNode node = root, prev = null;
+        while(node != null || !stack.isEmpty()){
+            while(node != null){
+                stack.push(node);
+                node = node.left;
+            }
+            node = stack.pop();
+            if(node.right == null || prev == node.right){
+                ans.add(node.val);
+                prev = node;
+                node = null;
+            }else{
+                stack.push(node);
+                node = node.right;
+            }
+        }
+        return ans;
+    }
+}
+```
