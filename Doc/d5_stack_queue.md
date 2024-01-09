@@ -292,5 +292,46 @@ class Solution {
 }
 ```
 
+# 239.滑动窗口最大值
 
+动态维护一个保持下标序列的递减队列
+
+- 窗口要退出一个元素：
+  - 这个元素可能早已出队
+  - 也可能正是当前队列的最大值（队首），如果是队首就需要出队了
+- 当新加入一个元素时，
+  - 如果这个元素比队尾的值大，则说明这个元素的“价值”更高。
+  - 因为这个元素不仅更偏右边，而且更大，那么之前那些存在队列中比这个元素小的值就都可以从队尾出队了
+
+注意：
+- poll 是从队首出队
+- pollLast 从队尾出队
+- offer 是从队尾入队，等同于 offerLast
+
+```java
+class Solution {
+  public int[] maxSlidingWindow(int[] nums, int k) {
+    Deque<Integer> queue = new LinkedList<>();
+    int[] ans = new int[nums.length - k + 1];
+    int idx = 0;
+    for(int i = 0; i < k; ++ i){
+      while(!queue.isEmpty() && nums[queue.peekLast()] <= nums[i]){
+        queue.pollLast();
+      }
+      queue.offerLast(i);
+    }
+
+    ans[idx++] = nums[queue.peekFirst()];
+    for(int i = k; i < nums.length; ++ i){
+      if(queue.peekFirst() == i - k) queue.poll();
+      while(!queue.isEmpty() && nums[queue.peekLast()] <= nums[i]){
+        queue.pollLast();
+      }
+      queue.offerLast(i);
+      ans[idx++] = nums[queue.peekFirst()];
+    }
+    return ans;
+  }
+}
+```
 
