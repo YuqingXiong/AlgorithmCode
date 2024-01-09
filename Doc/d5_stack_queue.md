@@ -335,3 +335,39 @@ class Solution {
 }
 ```
 
+# 347.前 K 个高频元素
+
+求前 K 个最大 的元素：
+- 用优先队列维护一个size为k的**最小堆**，这样最小的元素保持在堆顶
+- 当有新元素来的时候
+  - 如果新元素大于堆顶的最小元素，说明这个堆顶的元素要被淘汰掉，新元素加入堆中
+  - 如果新元素小于堆顶元素，说明新元素连最小的元素都打不过，自然堆中的元素是当前最大的K个，堆保持不变
+
+```java
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> table = new HashMap<>();
+        for(int i = 0; i < nums.length; ++ i){
+            table.put(nums[i], table.getOrDefault(nums[i], 0) + 1);
+        }
+        int[] ans = new int[k];
+        PriorityQueue<Integer> pq = new PriorityQueue<>((Integer a, Integer b)->{
+            return table.get(a) - table.get(b); 
+        });
+
+        for(int key : table.keySet()){
+            if(pq.size() < k){
+                pq.add(key);
+            }else if(table.get(pq.peek()) < table.get(key)){
+                pq.poll();
+                pq.add(key);
+            }
+        }
+        int idx = 0;
+        while(!pq.isEmpty()){
+            ans[idx++] = pq.poll();
+        }
+        return ans;
+    }
+}
+```
