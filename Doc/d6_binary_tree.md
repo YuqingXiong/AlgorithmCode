@@ -139,3 +139,58 @@ class Solution {
     }
 }
 ```
+
+# 102.二叉树的层序遍历
+
+## BFS
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root == null) return ans;
+        
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int curLevel = queue.size();
+            List<Integer> ansLevel = new ArrayList<>();
+            for(int i = 0; i < curLevel; ++ i){
+                TreeNode node = queue.poll();
+                ansLevel.add(node.val);
+                if(node.left != null) queue.offer(node.left);
+                if(node.right != null) queue.offer(node.right);
+            }
+            ans.add(ansLevel);
+        }
+        return ans;
+    }
+}
+```
+
+
+## 我的代码
+```java
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root == null) return ans;
+        List<TreeNode> levelNode = new ArrayList<>();
+        levelNode.add(root);
+        while(levelNode.size() != 0){
+            List<Integer> levelAns = new ArrayList<>();
+            List<TreeNode> nextLevelNode = new ArrayList<>();
+            for(TreeNode node : levelNode){
+                levelAns.add(node.val);
+                System.out.println(node.val);
+                if(node.left != null)
+                    nextLevelNode.add(node.left);
+                if(node.right != null)
+                    nextLevelNode.add(node.right);
+            }
+            levelNode = nextLevelNode;
+            ans.add(levelAns);
+        }
+        return ans;
+    }
+}
+```
