@@ -47,3 +47,44 @@ class Solution {
     }
 }
 ```
+
+# 94.二叉树的中序遍历
+
+## 递归
+```java
+class Solution {
+    List<Integer> ans = new ArrayList<>();
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if(root == null) return ans;
+        inorderTraversal(root.left);
+        ans.add(root.val);
+        inorderTraversal(root.right);
+        return ans;
+    }
+}
+```
+
+## 迭代
+```java
+class Solution {
+   
+    public List<Integer> inorderTraversal(TreeNode root) {
+         List<Integer> ans = new ArrayList<>();
+        if(root == null) return ans;
+        
+        Deque<TreeNode> stack = new LinkedList<>();
+        TreeNode node = root;
+        while(node != null || !stack.isEmpty()){
+            while(node != null){
+                stack.push(node);
+                node = node.left;
+            }
+            node = stack.pop();
+            ans.add(node.val);
+            node = node.right;
+        }
+        return ans;
+    }
+}
+```
+

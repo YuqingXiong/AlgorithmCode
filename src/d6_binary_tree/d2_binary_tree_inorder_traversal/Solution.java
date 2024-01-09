@@ -1,7 +1,8 @@
-package d6_binary_tree.d1_binary_tree_preorder_traversal;
+package d6_binary_tree.d2_binary_tree_inorder_traversal;
 
 import java.util.ArrayList;
 import java.util.List;
+
 class TreeNode {
     int val;
     TreeNode left;
@@ -16,11 +17,11 @@ class TreeNode {
 }
 public class Solution {
     List<Integer> ans = new ArrayList<>();
-    public List<Integer> preorderTraversal(TreeNode root) {
-        if(root == null) return ans;
+    public List<Integer> inorderTraversal(TreeNode root) {
+        if (root == null) return ans;
+        inorderTraversal(root.left);
         ans.add(root.val);
-        preorderTraversal(root.left);
-        preorderTraversal(root.right);
+        inorderTraversal(root.right);
         return ans;
     }
 }
