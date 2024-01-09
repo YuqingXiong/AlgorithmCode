@@ -210,3 +210,55 @@ class Solution {
     }
 }
 ```
+
+# 101.对称二叉树
+
+根节点的左右子树是对称的，所以让两个子树同时往下遍历
+
+左子树的左节点等于右子树的右节点，反之亦然
+
+并且如果是迭代则让应该相等的节点放在临近的一起
+
+## 递归
+```java
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        return check(root.left, root.right);
+    }
+
+    public boolean check(TreeNode l, TreeNode r){
+        if(l == null && r == null) return true;
+        if(l == null || r == null) return false;
+        boolean check1 = check(l.left, r.right);
+        boolean check2 = check(l.right, r.left);
+        return l.val == r.val && check1 && check2;
+    }
+}
+```
+
+## 迭代
+
+注意遍历到叶子节点的时候要 continue
+
+```java
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.offer(root.left);
+        queue.offer(root.right);
+        while(!queue.isEmpty()){
+            TreeNode l = queue.poll();
+            TreeNode r = queue.poll();
+            if(l == null && r == null) continue;
+            if(l == null || r == null || l.val != r.val) return false;
+            
+            queue.offer(l.left);
+            queue.offer(r.right);
+
+            queue.offer(l.right);
+            queue.offer(r.left);
+        }
+        return true;
+    }
+}
+```
