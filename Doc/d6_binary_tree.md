@@ -262,3 +262,18 @@ class Solution {
     }
 }
 ```
+
+# 104.二叉树的最大深度
+
+递归写法：
+
+```java
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root == null) return 0;
+        int lnum = maxDepth(root.left);
+        int rnum = maxDepth(root.right);
+        return Math.max(lnum, rnum) + 1;
+    }
+}
+```
