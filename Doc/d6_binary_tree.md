@@ -292,3 +292,47 @@ class Solution {
     }
 }
 ```
+
+# 222.完全二叉树的节点个数
+
+## 完全二叉树的性质
+
+分左右子树遍历：
+- 如果左子树高度和右子树高度相等，则说明左子树已满，所以左子树的节点个数可以计算为 $2^{lLevel}$，只需要计算右子树节点个数了
+- 如果左子树高度和右子树高度不相等，则右子树已满，所以右子树的节点个数可以计算为 $2^{rLevel}$，只需要计算左子树节点个数了
+
+![img.png](https://xiongyuqing-img.oss-cn-qingdao.aliyuncs.com/img/202401101035909.png)
+
+```java
+class Solution {
+    public int countNodes(TreeNode root) {
+        if(root == null) return 0;
+        int lLevel = countLevel(root.left);
+        int rLevel = countLevel(root.right);
+        if(lLevel == rLevel){
+            return countNodes(root.right) + (1<<lLevel);
+        }else{
+            return countNodes(root.left) + (1<<rLevel);
+        }
+    }
+
+    public int countLevel(TreeNode root){
+        int level = 0;
+        while(root != null){
+            ++level;
+            root = root.left;
+        }
+        return level;
+    }
+}
+```
+
+## 常规递归遍历
+```java
+class Solution {
+    public int countNodes(TreeNode root) {
+        if(root == null) return 0;
+        return countNodes(root.left) + countNodes(root.right) + 1;
+    }
+}
+```
