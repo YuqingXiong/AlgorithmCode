@@ -336,3 +336,68 @@ class Solution {
     }
 }
 ```
+# 110.平衡二叉树
+
+## 自顶向下递归
+```java
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        if(root == null) return true;
+        int lLevel = countLevel(root.left);
+        int rLevel = countLevel(root.right);
+        if(Math.abs(lLevel-rLevel) > 1) return false;
+        return isBalanced(root.left) && isBalanced(root.right);
+    }
+
+    public int countLevel(TreeNode root){
+        if(root == null) return 0;
+        return Math.max(countLevel(root.left), countLevel(root.right)) + 1;
+    }
+}
+```
+countLevel被重复调用了
+
+## 自底向上递归
+
+- 如果平衡就返回高度
+- 如果不平衡就返回一个负数
+- 后面判断是否子树已经不平衡，通过高度是否是负数检测
+
+```java
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        return countLevel(root) >= 0;
+    }
+
+    public int countLevel(TreeNode root){
+        if(root == null) return 0;
+        int lLevel = countLevel(root.left);
+        int rLevel = countLevel(root.right);
+        if(lLevel == -1 || rLevel == -1 || Math.abs(lLevel-rLevel) > 1){
+            return -1;
+        }
+        return Math.max(lLevel, rLevel) + 1;
+    }
+}
+```
+
+左子树已经不平衡，右子树就没必要递归下去了，直接 return
+```java
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        return countLevel(root) >= 0;
+    }
+
+    public int countLevel(TreeNode root){
+        if(root == null) return 0;
+        int lLevel = countLevel(root.left);
+        if(lLevel == -1) return -1;
+        int rLevel = countLevel(root.right);
+        if(rLevel == -1) return -1;
+        if(Math.abs(lLevel-rLevel) > 1){
+            return -1;
+        }
+        return Math.max(lLevel, rLevel) + 1;
+    }
+}
+```
