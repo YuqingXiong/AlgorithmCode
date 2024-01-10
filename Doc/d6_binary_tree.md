@@ -401,3 +401,57 @@ class Solution {
     }
 }
 ```
+
+# 257.二叉树的所有路径
+
+遇到叶子节点就把路径计入答案，否则把当前节点计入路径中
+
+```java
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> paths = new ArrayList<>();
+        TreePath(root, "", paths);
+        return paths;
+    }
+
+    public void TreePath(TreeNode root, String path, List<String> paths){
+        if(root == null) return;
+        if(root.left == null && root.right == null){
+            paths.add(path + root.val);
+            return;
+        }
+        path += root.val + "->";
+        TreePath(root.left, path, paths);
+        TreePath(root.right, path, paths);
+    }
+}
+```
+
+String 的加法会不断的创建拷贝生成新的字符串，耗费时间和空间。可以用 StringBuilder 或者 StringBuffer 优化
+
+但是它们属于引用类型，后面对其字符串的更改，回溯后更改依然存在，所以在回溯后需要delete掉多余的内容
+
+```java
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> paths = new ArrayList<>();
+        TreePath(root, new StringBuilder(), paths);
+        return paths;
+    }
+
+    public void TreePath(TreeNode root, StringBuilder path, List<String> paths){
+        if(root == null) return;
+        if(root.left == null && root.right == null){
+            paths.add(path.toString() + root.val); // toString 一定在前，+val在后
+            return;
+        }
+        int prevLen = path.length();
+        path.append(root.val).append("->");
+        
+        TreePath(root.left, path, paths);
+        TreePath(root.right, path, paths);
+
+        path.setLength(prevLen);
+    }
+}
+```
