@@ -455,3 +455,25 @@ class Solution {
     }
 }
 ```
+
+# 404.左叶子之和
+
+https://leetcode.cn/problems/sum-of-left-leaves/
+
+1. 首先必须有左节点
+2. 然后必须是叶子节点
+3. 每次的递归累计值不能丢失
+
+```java
+class Solution {
+    public int sum = 0;
+    public int sumOfLeftLeaves(TreeNode root) {
+        if(root == null) return sum;
+        if(root.left != null && root.left.left == null && root.left.right == null)
+            sum = sum + root.left.val;
+        sumOfLeftLeaves(root.left);
+        sumOfLeftLeaves(root.right);
+        return sum;
+    }
+}
+```
