@@ -1,13 +1,13 @@
 # 这里是xiongyuqing的LeetCode刷题记录
 
-题解：https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc
+题解：https://github.com/YuqingXiong/AlgorithmCode/tree/master
 
-- 数组题目与题解：[d1_array](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d1_array.md)
+- 数组题目与题解：[d1_array](https://github.com/YuqingXiong/AlgorithmCode/tree/master/d1_array.md)
   - 27.移除元素
   - 977.有序数组的平方
   - 209.长度最小的子数组
   - 59.螺旋矩阵 II
-- 链表题目与题解：[d2_link](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d2_link.md)
+- 链表题目与题解：[d2_link](https://github.com/YuqingXiong/AlgorithmCode/tree/master/d2_link.md)
   - 203.移除链表元素
   - 707.设计链表
   - 206.反转链表
@@ -15,7 +15,7 @@
   - 19.删除链表的倒数第N个节点
   - 面试题02.07.链表相交
   - 142.环形链表  II
-- 哈希题目与题解：[d3_hash](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d3_hash.md)
+- 哈希题目与题解：[d3_hash](https://github.com/YuqingXiong/AlgorithmCode/tree/master/d3_hash.md)
   - 242.有效的字母异位词
   - 349.两个数组的交集
   - 202.快乐数
@@ -24,14 +24,14 @@
   - 383.赎金信
   - **15.三数之和**
   - 18.四数之和
-- 字符串题目与题解：[d4_string](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d4_string.md)
+- 字符串题目与题解：[d4_string](https://github.com/YuqingXiong/AlgorithmCode/tree/master/d4_string.md)
   - 344.反转字符串
   - 541.反转字符串 II
   - 122.路径加密/替换空格
   - 182.动态口令/左旋字符串
   - **28.实现strStr**
   - 459.重复的子字符串
-- 栈和队列题目与题解: [d5_stack_queue](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d5_stack_queue.md)
+- 栈和队列题目与题解: [d5_stack_queue](https://github.com/YuqingXiong/AlgorithmCode/tree/master/d5_stack_queue.md)
   - 232.用栈实现队列
   - 225.用队列实现栈
   - 20.有效的括号
@@ -39,7 +39,7 @@
   - 150.逆波兰表达式求值
   - **239.滑动窗口最大值**
   - **347.前 K 个高频元素**
-- 二叉树题目与题解：[d6_binary_tree](https://github.com/YuqingXiong/AlgorithmCode/tree/master/Doc/d6_binary_tree.md)
+- 二叉树题目与题解：[d6_binary_tree](https://github.com/YuqingXiong/AlgorithmCode/tree/master/d6_binary_tree.md)
   - 144.二叉树的前序遍历
   - 94.二叉树的中序遍历
   - 145.二叉树的后序遍历
@@ -51,3 +51,4 @@
   - 222.完全二叉树的节点个数
   - 110.平衡二叉树
   - 257.二叉树的所有路径
+  - 404.左叶子之和
