@@ -477,3 +477,32 @@ class Solution {
     }
 }
 ```
+
+# 513.找树左下角的值
+左下角的值，也就是从左往右dfs最深的一层的第一个节点
+
+或者，bfs从左往右的第一个节点（从右往左的最后一个节点）
+## dfs
+记录选择节点的深度
+```java
+public class Solution {
+    int curDepth = 1;
+    int maxDepth = 0;
+    int curVal = 0;
+    public int findBottomLeftValue(TreeNode root) {
+        if(root == null) return curVal;
+        if(root.left == null && root.right == null){
+            if(maxDepth < curDepth){
+                maxDepth = curDepth;
+                curVal = root.val;
+                return curVal;
+            }
+        }
+        curDepth += 1;
+        findBottomLeftValue(root.left);
+        findBottomLeftValue(root.right);
+        curDepth -= 1;
+        return curVal;
+    }
+}
+```
