@@ -506,3 +506,27 @@ public class Solution {
     }
 }
 ```
+
+# 112.路径总和
+easy
+
+求二叉树路径上所有节点的和是否等于某个数
+
+每次向下递归的时候减去当前节点的值，直到叶子节点看是否减到0了
+
+左右子树只要有一个返回 true，就存在
+
+```java
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root == null) return false;
+        if(root.left == null && root.right == null){
+            if(targetSum - root.val == 0) return true;
+            return false;
+        }
+        return hasPathSum(root.left, targetSum - root.val) 
+                || hasPathSum(root.right, targetSum - root.val);
+    }
+}
+```
+
