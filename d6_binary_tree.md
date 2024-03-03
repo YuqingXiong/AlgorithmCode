@@ -530,3 +530,46 @@ class Solution {
 }
 ```
 
+# 106.从中序与后序遍历序列构造二叉树
+
+中序遍历：左 [中] 右 ：获取左右子树的范围
+
+后序遍历：左 右 [中] ：获取根节点
+
+所以后序遍历的最后一个节点一定是根节点
+1. 首先根据后序遍历，其最后一个位置就是根节点idx
+2. 找到根节点idx对应中中序遍历的位置 mid ，获取左右子树的范围 [l, mid-1], [mid+1, r]
+3. 递归的在 [l, mid-1], [mid+1, r] 区间重复上述两个过程；
+4. 由于后序遍历是先左，再右，所以下一个根节点也就是--idx是右子树的根节点。所以必须先递归右区间，再递归左区间
+
+```java
+class Solution {
+    Map<Integer, Integer> hash;
+    int idx;
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        hash = new HashMap<>();
+        for(int i = 0; i < inorder.length; ++ i){
+            hash.put(inorder[i], i);
+        }
+        idx = inorder.length-1;
+        return build(inorder, postorder, 0, inorder.length-1);
+    }
+
+    public TreeNode build(int[] inorder, int[] postorder, int l, int r){
+        if(l > r){
+            return null;
+        }
+        // if(l == r){
+        //     idx--;
+        //     return new TreeNode(inorder[l]);
+        // }
+        TreeNode root = new TreeNode(postorder[idx]);
+        int mid = hash.get(postorder[idx--]);
+
+        root.right = build(inorder, postorder, mid + 1, r);
+        root.left = build(inorder, postorder, l, mid-1);
+        return root;
+    }
+}
+```
+
