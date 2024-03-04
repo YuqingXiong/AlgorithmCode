@@ -573,3 +573,88 @@ class Solution {
 }
 ```
 
+# 654.最大二叉树
+给定一个不重复的整数数组 nums 。 最大二叉树 可以用下面的算法从 nums 递归地构建:
+
+* 创建一个根节点，其值为 nums 中的最大值。
+* 递归地在最大值 左边 的 子数组前缀上 构建左子树。
+* 递归地在最大值 右边 的 子数组后缀上 构建右子树。
+
+
+## 递归
+
+每次在指定区间内找到最大值作为根节点
+
+```java
+class Solution {
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        return build(nums, 0, nums.length-1);
+    }
+
+    public TreeNode build(int[] nums, int l, int r){
+        if(l > r){
+            return null;
+        }
+        int mid = l;
+        for(int i = l + 1; i <= r; ++ i){
+            if(nums[i] > nums[mid]){
+                mid = i;
+            }
+        }
+
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = build(nums, l, mid - 1);
+        root.right = build(nums, mid + 1, r);
+        return root;
+    }
+}
+```
+
+## 单调栈
+
+找到每个节点，左边第一个和右边第一个比它大的元素，其中较小的元素为当前节点的父节点
+
+找到每个元素第一个比它大的元素可以用单调栈：
+
+构造一个单调递减的栈，每当加入当前元素：
+- 如果栈顶元素比当前元素小，那么当前元素就是栈顶元素右边第一个比它大的
+- 如果栈顶元素比当前元素大，那么栈顶元素就是当前元素左边第一个比它大的
+
+```java
+class Solution {
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        int n = nums.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        Arrays.fill(left, -1);
+        Arrays.fill(right, -1);
+        Deque<Integer> stack = new ArrayDeque<>();
+        TreeNode[] nodes = new TreeNode[n];
+        for(int i = 0; i < n; ++ i){
+            nodes[i] = new TreeNode(nums[i]);
+            while(!stack.isEmpty() && nums[i] > nums[stack.peek()]){
+                right[stack.pop()] = i;
+            }
+            if(!stack.isEmpty()){
+                left[i] = stack.peek();
+            }
+            stack.push(i);
+        }
+
+        TreeNode root = null;
+        for(int i = 0; i < n; ++ i){
+            if(left[i] == -1 && right[i] == -1){
+                root = nodes[i];
+            }else if(left[i] == -1 || (right[i] != -1 && nums[left[i]] > nums[right[i]])){
+                nodes[right[i]].left = nodes[i];
+            }else{
+                nodes[left[i]].right = nodes[i];
+            }
+        }
+        return root;
+    }
+}
+```
+
+
+
