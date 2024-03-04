@@ -656,5 +656,48 @@ class Solution {
 }
 ```
 
+# 617.合并二叉树
+
+```java
+class Solution {
+    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+        if(root1 == null && root2 == null){
+            return null;
+        }
+        int val1 = root1 == null ? 0 : root1.val;
+        int val2 = root2 == null ? 0 : root2.val;
+        TreeNode root = new TreeNode(val1 + val2);
+        root.left = mergeTrees(root1 == null ? null : root1.left, root2 == null ? null : root2.left);
+        root.right = mergeTrees(root1 == null ? null : root1.right, root2 == null ? null : root2.right);
+        return root;
+    }
+}
+```
+
+更简介的代码：
+
+不需要判断两个通知为 null 才返回 null
+
+只要有一方为 null，就返回另一方
+
+```java
+class Solution {
+    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+        if(root1 == null){
+            return root2;
+        }
+        if(root2 == null){
+            return root1;
+        }
+        TreeNode root = new TreeNode(root1.val + root2.val);
+        root.left = mergeTrees(root1.left, root2.left);
+        root.right = mergeTrees(root1.right, root2.right);
+        return root;
+    }
+}
+```
+
+# 700.二叉搜索树中的搜索
+
 
 
