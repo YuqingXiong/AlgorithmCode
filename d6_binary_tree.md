@@ -739,4 +739,72 @@ class Solution {
 
 迭代版本的，便于拿到前一个节点的值
 
+# 530.二叉搜索树的最小绝对差
 
+二叉搜索树的中序遍历结果中，相邻数字相减的最小值
+
+## 迭代：
+```java
+class Solution {
+    public int getMinimumDifference(TreeNode root) {
+        
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        int pre = -1, res = Integer.MAX_VALUE;
+        while(root != null || !stack.isEmpty()){
+            while(root != null){
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if(pre != -1){
+                res = Math.min(res, root.val - pre);
+            }
+            pre = root.val;
+            root = root.right;
+        }
+        return res;
+    }
+}
+```
+中序遍历模板：
+```java
+class Solution{
+    public void minSearch(TreeNode root){
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        // 节点不为空，或者栈里面还有剩下没被遍历的左节点们
+        while(root != null || !stack.isEmpty()){
+            // 中序遍历，先遍历到极左：
+            while(root != null){
+                stack.push(root);
+                root = root.left;
+            }
+            // 中序遍历，极左遍历完了，遍历中间的节点：
+            root = stack.pop(); // 栈中弹出最后遍历到的左节点
+            root = root.rigth; // 最后遍历右节点
+        }
+    }
+}
+```
+
+## 递归：
+
+```java
+class Solution {
+
+    int pre = -1;
+    int ans = Integer.MAX_VALUE;
+
+    public int getMinimumDifference(TreeNode root) {
+        if(root == null){
+            return ans;
+        }
+        getMinimumDifference(root.left);
+        if(pre != -1){
+            ans = Math.min(ans, root.val - pre);
+        }
+        pre = root.val;
+        getMinimumDifference(root.right);
+        return ans;
+    }
+}
+```
