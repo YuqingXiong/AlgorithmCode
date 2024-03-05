@@ -716,5 +716,27 @@ class Solution {
 }
 ```
 
+# 98.验证二叉搜索树
+
+## 递归判断区间范围
+
+```java
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return check(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    public boolean check(TreeNode root, long left, long right){
+        if(root == null) return true;
+        if(root.val <= left || root.val >= right) return false;
+
+        return check(root.left, left, root.val) && check(root.right, root.val, right);
+    }
+}
+```
+
+## 中序遍历
+
+迭代版本的，便于拿到前一个节点的值
 
 
