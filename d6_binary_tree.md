@@ -874,3 +874,56 @@ class Solution {
 
 再次从 q 开始向上搜索，如果遇到了之前遇到的节点，这个节点就是最近公共祖先
 
+# 235.二叉搜索树的最近公共祖先
+
+## 一次搜索两个节点
+
+如果 p.val <= root.val <= q.val 那么 root 就是 LCA
+
+```java
+class Solution {
+    TreeNode ans = null;
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        ans = null;
+        dfs(root, p, q);
+        return ans;
+    }
+
+    public void dfs(TreeNode root, TreeNode p, TreeNode q){
+        if(root == null) return;
+        if(root.val > p.val && root.val > q.val) dfs(root.left, p, q);
+        else if(root.val < p.val && root.val < q.val) dfs(root.right, p, q);
+        else ans = root;
+    }
+}
+```
+
+## 两次搜索
+
+两次搜索获取两个目标节点的路径，路径的分叉点就是 LCA
+```java
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        List<TreeNode> path_p = new ArrayList<>();
+        List<TreeNode> path_q = new ArrayList<>();
+        dfs(path_p, root, p);
+        dfs(path_q, root, q);
+        int i = 0;
+        TreeNode ans = null;
+        while(i < path_p.size() && i < path_q.size()){
+            if(path_p.get(i).val == path_q.get(i).val){
+                ans = path_p.get(i);
+            }else break;
+            ++i;
+        }
+        return ans;
+    }
+
+    public void dfs(List<TreeNode> path, TreeNode root, TreeNode target){
+        path.add(root);
+        if(root == target) return;
+        if(root.val > target.val) dfs(path, root.left, target);
+        else dfs(path, root.right, target);
+    }
+}
+```
