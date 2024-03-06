@@ -808,3 +808,69 @@ class Solution {
     }
 }
 ```
+
+# 236.二叉树的最近公共祖先
+
+## dfs
+
+回溯的时候判断，该节点 x 本身及其子节点是否包含p或q中的一个，判断条件：
+- x == p || x == q || lson || rson
+
+- 如果一个节点 x 的左子树 lson 和 右子树 rson 各自包含一个 p 或者 q 节点，那么 x 就是最近公共祖先
+- 如果一个节点 x 本身是 p 或者 q 节点，x 的 lson 或者 rson 包含剩下的 p 或者 q 节点，那么 x 就是最近公共祖先
+
+转换为：
+- (lson && rson) || ((x == p || x == q) && (lson || rson))
+
+
+```java
+class Solution {
+    TreeNode ans;
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        ans = null;
+        dfs(root, p, q);
+        return ans;
+    }
+
+    public boolean dfs(TreeNode root, TreeNode p, TreeNode q){
+        if(root == null) return false;
+
+        boolean lson = dfs(root.left, p, q);
+        boolean rson = dfs(root.right, p, q);
+
+        if((lson && rson) || ((root.val == p.val || root.val == q.val)&&(lson || rson))){
+            ans = root;
+            return true;
+        }
+
+        return root.val == p.val || root.val == q.val || lson || rson;
+    }
+}
+```
+
+优雅的解法：
+```java
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) {
+            return root;     // 1)一个是另外一个的祖先
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left != null && right != null) {
+            return root;     // 2)左右两边各自有一个o1、o2，返回这个祖先"
+        }
+        return left != null ? left : right;
+        // 1) / 2) 找不到，回溯时一直是null，如果找到了，那么将找到的值往上窜！
+    }
+}
+```
+
+## 存储父节点
+
+从根节点 dfs，存储每个节点的父节点
+
+从 p 开始向上搜索，将遇到的节点进行记录
+
+再次从 q 开始向上搜索，如果遇到了之前遇到的节点，这个节点就是最近公共祖先
+
