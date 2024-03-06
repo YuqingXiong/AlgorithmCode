@@ -927,3 +927,59 @@ class Solution {
     }
 }
 ```
+
+# 701.二叉搜索树中的插入操作
+
+## 优雅写法
+
+用递归时的方向直接判断左还是右
+
+返回 root 节点给父节点，重建树
+
+```java
+class Solution {
+    boolean add = false;
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        return dfs(root, val);
+    }
+    public TreeNode dfs(TreeNode root, int val){
+        if(root == null) return new TreeNode(val);
+        if(val < root.val){
+            root.left = dfs(root.left, val);
+        }else{
+            root.right = dfs(root.right, val);
+        }
+        return root;
+    }
+}
+```
+
+## 我的代码
+找到插入的叶子节点，判断插入的方向。插入后限制不可插入：
+```java
+class Solution {
+    boolean add = false;
+    TreeNode node = null;
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        node = new TreeNode(val);
+        dfs(root, val);
+        return root == null ? node : root;
+    }
+    public void dfs(TreeNode root, int val){
+        if(root == null) return;
+        int dir = 0;
+        if(root.val > val) {
+            dfs(root.left, val);
+            dir = 1;
+        }else dfs(root.right, val);
+        if(add == false){
+            if(dir == 0){
+                root.right = node;
+            }else{
+                root.left = node;
+            }
+            add = true;
+        }
+    }
+}
+```
