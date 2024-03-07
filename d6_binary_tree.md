@@ -1056,3 +1056,32 @@ class Solution {
     }
 }
 ```
+
+# 108.将有序数组转换为二叉搜索树
+
+每次选择区间内的中间值作为根节点，递归构造左右子树，
+
+直到区间唯一个点返回该点构造的节点，或者 l > r 说明不存在左边或者右边的值，返回 null
+
+返回左右子树构造好的根节点给上层的根节点构造左右子树
+
+```java
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return build(nums, 0, nums.length - 1);
+    }
+
+    public TreeNode build(int[] nums, int l, int r){
+        if(l == r){
+            return new TreeNode(nums[l]);
+        }else if(l > r){
+            return null;
+        }
+        int mid = l + (r - l)/2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = build(nums, l, mid - 1);
+        root.right = build(nums, mid + 1, r);
+        return root;
+    }
+}
+```
