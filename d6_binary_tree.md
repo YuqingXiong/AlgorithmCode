@@ -983,3 +983,48 @@ class Solution {
     }
 }
 ```
+
+# 450.删除二叉搜索树中的节点
+
+首先找到要删除的节点，然后分类讨论：
+- 如果删除节点左右子树为空，则直接返回 null
+- 如果删除节点左子树为空，返回右子树
+- 如果删除节点右子树为空，返回左子树
+- 如果删除节点左右子树都不为空：
+  - 找到删除节点的后继节点，也就是 delete 节点的右子树的最左节点 node
+  - 该 node 节点是仅仅只大于 delete节点的，所以用 node 代替 delete 节点，二叉树的性质保持不变
+  - 替代方法：首先删除 node 节点，然后改变 node 的左右子树
+
+```java
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root == null) return root;
+        if(key < root.val){
+            root.left = deleteNode(root.left, key);
+            return root;
+        }else if(key > root.val){
+            root.right = deleteNode(root.right, key);
+            return root;
+        }else if(key == root.val){
+            if(root.left == null && root.right == null){
+                return null;
+            }else if(root.left == null){
+                return root.right;
+            }else if(root.right == null){
+                return root.left;
+            }else{
+                TreeNode node = root.right;
+                while(node.left != null){
+                    node = node.left;
+                }
+                // 这里要写 root.right = deleteNode(xx)，因为有可能删除的是root.right，就会返回 null
+                root.right = deleteNode(root.right, node.val);
+                node.left = root.left;
+                node.right = root.right;
+                return node;
+            }
+        }
+        return root;
+    }
+}
+```
