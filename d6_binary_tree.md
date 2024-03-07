@@ -1085,3 +1085,57 @@ class Solution {
     }
 }
 ```
+
+# 538.把二叉搜索树转换为累加树
+
+反向中序遍历，累加之前的值：
+
+```java
+class Solution {
+    int sum = 0;
+    public TreeNode convertBST(TreeNode root) {
+        if(root == null) return root;
+        convertBST(root.right);
+        sum += root.val;
+        root.val = sum;
+        convertBST(root.left);
+        return root;
+    }
+}
+```
+
+
+我的代码：
+
+先dfs一遍算出总和
+
+中序遍历一遍，减去之前的值
+
+```java
+class Solution {
+    int sum = 0;
+    public TreeNode convertBST(TreeNode root) {
+        dfs(root);
+        if(root != null) sum += root.val;
+        build(root);
+        return root;
+    }
+
+    public int dfs(TreeNode root){
+        if(root == null) return 0;
+        int l = dfs(root.left);
+        int r = dfs(root.right);
+        sum = sum + l + r;
+        return root.val;
+    }
+
+    public void build(TreeNode root){
+        if(root == null) return;
+        build(root.left);
+        int sub = root.val;
+        root.val = sum;
+        sum -= sub;
+        build(root.right);
+    }
+}
+```
