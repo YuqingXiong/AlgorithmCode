@@ -1028,3 +1028,31 @@ class Solution {
     }
 }
 ```
+
+# 696.修剪二叉搜索树
+
+将不在区间 [low, high] 内的节点剪掉
+
+- 如果节点的值 小于 low ，则只用修剪右子树
+- 如果节点的值 大于 high，则只用修建左子树
+- 如果位于区间，则其左右子树可能不正常，所以递归修建左右子树
+
+- 修剪到最后，如果没有正常的节点则会一直递归到节点为 null，返回 null
+- 如果遇到正常节点，则返回该节点本身
+
+```java
+class Solution {
+    public TreeNode trimBST(TreeNode root, int low, int high) {
+        if(root == null) return root;
+        if(root.val < low){
+            return trimBST(root.right, low, high);
+        }else if(root.val > high){
+            return trimBST(root.left, low, high);
+        }else{
+            root.left = trimBST(root.left, low, high);
+            root.right = trimBST(root.right, low, high);
+            return root;
+        }
+    }
+}
+```
