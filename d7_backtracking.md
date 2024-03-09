@@ -104,3 +104,42 @@ class Solution {
 	}
 }
 ```
+
+# 17.电话号码的字母组合
+
+第一次遍历判断第一个位置的 beg 所对应的字符 idx，遍历所有字符的可能
+
+第二次遍历判断第二个位置的 beg + 1 所对应的字符 idx，遍历所有字符的可能
+
+一直到所有位置都被遍历完，也就是 digits 所有位置都被遍历完，那么 beg 就等于  digits.length() 了，此时记录答案
+
+注意，digits 的第 beg 位置，对应的数字是 idx，该 idx 对应的字符才是要遍历的字符
+- 字符串中提取对应位置的字符：digits.chatAt(beg)
+- 字符 char 转为 int 类型：
+  - 首先 char 转为 String ：String.valueOf(x)
+  - String 转为 int : Integer.parseInt(xx)
+
+```java
+class Solution {
+    List<String> table = Arrays.asList("", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz");
+    List<String> ans = new ArrayList<>();
+    public List<String> letterCombinations(String digits) {
+        if(digits.equals("")) return ans;
+        dfs(digits, new StringBuilder(), 0);
+        return ans;
+    }
+
+    public void dfs(String digits, StringBuilder res, int beg){
+        if(beg == digits.length()){
+            ans.add(res.toString());
+            return;
+        }
+        int idx = Integer.parseInt(String.valueOf(digits.charAt(beg)));
+        for(int j = 0; j < table.get(idx).length(); ++j){
+            res.append(table.get(idx).charAt(j));
+            dfs(digits, res, beg + 1);
+            res.delete(beg, beg + 1);
+        }
+    }
+}
+```
