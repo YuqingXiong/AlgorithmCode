@@ -143,3 +143,38 @@ class Solution {
     }
 }
 ```
+
+# 39.组合总和
+
+不限制元素使用次数，使其达到目标数，的所有不同组合
+
+- 由于可以重复选取，所以 i 没有+1
+- 由于结果要求组合不同，所以不能选 i 之前的数，这里用for循环让 i 只能往后选择剩余的数
+
+```java
+class Solution {
+    List<Integer> res = new ArrayList<>();
+    List<List<Integer>> ans = new ArrayList<List<Integer>>();
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        dfs(res, candidates, target, 0);
+        return ans;
+    }
+
+    public void dfs(List<Integer> res, int[] candidates, int target, int beg){
+        
+        if(target < 0){
+            return;
+        }
+        if(target == 0){
+            ans.add(new ArrayList(res));
+            return;
+        }
+
+        for(int i = beg; i < candidates.length; ++ i){
+            res.add(candidates[i]);
+            dfs(res, candidates, target - candidates[i], i);
+            res.remove(res.size() - 1);
+        }
+    }
+}
+```
