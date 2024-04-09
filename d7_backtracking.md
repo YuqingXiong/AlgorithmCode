@@ -258,4 +258,102 @@ class Solution {
     }
 }
 ```
+# 131.分割回文串
+
+## 动态规划
+
+动态规划判断一个字串是否回文：
+
+```java
+f[i][j] = f[i+1][j-1] && (s.charAt(i) == s.charAt(j));
+```
+> 注意，先定后边界 j，再遍历所有前边界 i
+
+dfs 遍历所有可能划分
+
+```java
+class Solution {
+    boolean[][] f;
+    List<String> seq = new ArrayList<>();
+    List<List<String>> res = new ArrayList<List<String>>();
+    public List<List<String>> partition(String s) {
+        int n = s.length();
+        f = new boolean[n][n];
+        for(int i = 0; i < n; ++ i){
+            for(int j = 0; j <= i; ++ j){
+                f[i][j] = true;
+            }
+        }
+
+        for(int j = 1; j < n; ++ j){
+            for(int i = 0; i < j; ++ i){
+                f[i][j] = f[i+1][j-1] && (s.charAt(i) == s.charAt(j));
+            }
+        }
+
+        dfs(s, 0);
+        return res;
+    }
+
+    public void dfs(String s, int beg){
+        if(beg == s.length()){
+            res.add(new ArrayList<String>(seq));
+            return;
+        }
+        for(int j = beg; j < s.length(); ++ j){
+            if(f[beg][j]){
+                seq.add(s.substring(beg, j + 1));
+                dfs(s, j + 1);
+                seq.remove(seq.size() - 1);
+            }
+        }
+    }
+}
+```
+
+## 记忆化搜索
+
+将回文串的判断用dfs实现：
+
+```java
+class Solution {
+    int[][] f;
+    List<String> seq = new ArrayList<>();
+    List<List<String>> res = new ArrayList<List<String>>();
+    public List<List<String>> partition(String s) {
+        int n = s.length();
+        f = new int[n][n];
+        dfs(s, 0);
+        return res;
+    }
+
+    public void dfs(String s, int beg){
+        if(beg == s.length()){
+            res.add(new ArrayList<String>(seq));
+            return;
+        }
+        for(int j = beg; j < s.length(); ++ j){
+            if(isHuiwen(s, beg, j) == 1){
+                seq.add(s.substring(beg, j + 1));
+                dfs(s, j + 1);
+                seq.remove(seq.size() - 1);
+            }
+        }
+    }
+    public int isHuiwen(String s, int i, int j){
+        if(f[i][j] != 0){
+            return f[i][j];
+        }
+        if(i >= j){
+            f[i][j] = 1;
+        }else if(s.charAt(i) == s.charAt(j)){
+            f[i][j] = isHuiwen(s, i+1, j-1);
+        }else{
+            f[i][j] = -1;
+        }
+        return f[i][j];
+    }
+}
+```
+
 
