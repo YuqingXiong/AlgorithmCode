@@ -356,4 +356,33 @@ class Solution {
 }
 ```
 
+# 78.子集
+
+- 迭代法：可以枚举二进制
+- 回溯法：
+
+```java
+class Solution {
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    List<Integer> ans = new ArrayList<>();
+    public List<List<Integer>> subsets(int[] nums) {
+        dfs(nums, 0);
+        return res;
+    }
+
+    public void dfs(int[] nums, int beg){
+        res.add(new ArrayList(ans));
+        if(beg == nums.length){
+            return;
+        }
+
+        for(int i = beg; i < nums.length; ++ i){
+            ans.add(nums[i]);
+            dfs(nums, i + 1);
+            ans.remove(ans.size()-1);
+        }
+    }
+}
+```
+
 
