@@ -178,3 +178,84 @@ class Solution {
     }
 }
 ```
+
+## 40.组合总和II
+
+元素有重复，选出总和达到目标数的不同组合
+
+由于元素有重复，所以一个数只能连续的被使用，那么就需要对原数组排序
+
+我这里使用了一个freq记录每个数的可使用次数，当这个数的使用次数被用完，或者以后都不打算使用这个数的时候，才可以用下一个数
+
+```java
+class Solution {
+    List<int[]> freq = new ArrayList<>();
+    List<Integer> res = new ArrayList<>();
+    List<List<Integer>> ans = new ArrayList<List<Integer>>();
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        int num = 1, size = candidates.length;
+        for(int i = 0; i < size; ++ i){
+            if(i < size -1 && candidates[i] == candidates[i+1]){
+                ++num;
+            }else{
+                freq.add(new int[]{candidates[i], num});
+                num = 1;
+            }
+        }
+        dfs(target, 0);
+        return ans;
+    }
+
+    public void dfs(int target, int beg){
+        if(target < 0){
+            return;
+        }
+        if(target == 0){
+            ans.add(new ArrayList<>(res));
+        }
+
+        for(int i = beg; i < freq.size(); ++i){
+            res.add(freq.get(i)[0]);
+            --freq.get(i)[1];
+            dfs(target-freq.get(i)[0], freq.get(i)[1] == 0 ? i+1 : i);
+            res.remove(res.size() - 1);
+            ++freq.get(i)[1];
+        }
+    }
+}
+```
+## 更优雅
+
+另一个方法是让当前搜索层级里不出现相同的元素，要想同一个值使用多次，则必须在dfs的下一个层级
+
+```java
+class Solution {
+    List<Integer> res = new ArrayList<>();
+    List<List<Integer>> ans = new ArrayList<List<Integer>>();
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        dfs(candidates, target, 0);
+        return ans;
+    }
+
+    public void dfs(int[] candidates, int target, int beg){
+        if(target < 0){
+            return;
+        }
+        if(target == 0){
+            ans.add(new ArrayList<>(res));
+        }
+
+        for(int i = beg; i < candidates.length; ++i){
+            if(i > beg && candidates[i] == candidates[i-1]){
+                continue;
+            }
+            res.add(candidates[i]);
+            dfs(candidates, target-candidates[i], i+1);
+            res.remove(res.size() - 1);
+        }
+    }
+}
+```
+
