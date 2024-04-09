@@ -191,3 +191,54 @@ class Solution {
     }
 }
 ```
+
+# 93.复原IP地址
+
+细节注意：
+- IP 地址不能超过 3 位
+- 不能前导 0 开头
+- 不能大于 255
+- 只有 4 节：终止条件
+
+```java
+class Solution {
+    List<String> res = new ArrayList<>();
+    List<String> ans = new ArrayList<>();
+    public List<String> restoreIpAddresses(String s) {
+        dfs(s, 0, 0);
+        return res;
+    }
+
+    public void dfs(String s, int beg, int num){
+        if(num == 4 && beg == s.length()){
+            String ip = "";
+            for(int i = 0; i < ans.size(); ++ i){
+                ip += ans.get(i) + ((i < ans.size() - 1) ? "." : "");
+            }
+            res.add(ip);
+            return;
+        }
+        if(num > 4){
+            return;
+        }
+
+        for(int i = beg; i < beg + 3 && i < s.length(); ++ i){
+            String str = s.substring(beg, i+1);
+            if(str.length() > 1 && str.charAt(0) == '0') continue;
+            int strnum = Integer.parseInt(str);
+            if(strnum < 0 || strnum > 255) continue;
+            ans.add(str);
+            dfs(s, i + 1, num+1);
+            ans.remove(ans.size() - 1);
+        }
+    }
+
+}
+```
+
+可以用 StringBuilder 来累加节约空间
+
+更方便的写法：
+```java
+String.join(".", ans);
+```
