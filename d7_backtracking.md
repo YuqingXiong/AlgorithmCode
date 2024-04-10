@@ -485,4 +485,50 @@ class Solution {
 }
 ```
 
+# 47.全排列II
+
+有重复元素的全排列
+
+求全排列的方法加上去重算法
+
+由于顺序无所谓，所以可以先排序，
+
+对于同一层的搜索：**让上一次搜索的元素与下一次搜索的元素不同**
+
+记录上一次用到的元素，判断当前元素是否与前一个元素相同
+
+```java
+class Solution {
+    boolean[] used;
+    int n;
+    List<Integer> ans = new ArrayList<>();
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        n = nums.length;
+        used = new boolean[n];
+        Arrays.sort(nums);
+        dfs(nums);
+        return res;
+    }
+
+    public void dfs(int[] nums){
+        if(ans.size() == n){
+            res.add(new ArrayList(ans));
+            return;
+        }
+        int pre = 100;
+        for(int i = 0; i < n; ++ i){
+            if(used[i] == false && nums[i] != pre){
+                ans.add(nums[i]);
+                used[i] = true;
+                pre = nums[i];
+                dfs(nums);
+                used[i] = false;
+                ans.removeLast();
+            }
+        }
+    }
+}
+```
+
 
