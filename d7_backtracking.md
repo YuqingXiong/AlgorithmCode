@@ -413,4 +413,39 @@ class Solution {
 }
 ```
 
+# 491.递增子序列
+
+由于元素有重复且需要维护相对顺序，所以无法通过排序去重
+
+使用 HashSet 对同一层的数据去重
+
+```java
+class Solution {
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    List<Integer> ans = new ArrayList<>();
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        dfs(nums, 0, -101);
+        return res;
+    }
+
+    public void dfs(int[] nums, int beg, int pre){
+        if(ans.size() > 1){
+            res.add(new ArrayList(ans));
+        }
+        Set<Integer> used = new HashSet<>();
+        for(int i = beg; i < nums.length; ++ i){
+            if(nums[i] < pre || used.contains(nums[i])) {
+                continue;
+            }
+            used.add(nums[i]);
+            ans.add(nums[i]);
+            dfs(nums, i + 1, nums[i]);
+            ans.remove(ans.size() - 1);
+        }
+    }
+}
+```
+
+
+
 
