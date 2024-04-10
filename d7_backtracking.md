@@ -446,6 +446,43 @@ class Solution {
 }
 ```
 
+# 46.全排列
 
+将一个无重复元素的数组全排列
+
+used 记录已经使用过的元素
+
+每次都遍历所有，只往下 dfs 未使用的元素
+
+```java
+class Solution {
+    boolean[] used;
+    int n;
+    List<Integer> ans = new ArrayList<>();
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    public List<List<Integer>> permute(int[] nums) {
+        n = nums.length;
+        used = new boolean[n];
+        dfs(nums);
+        return res;
+    }
+
+    public void dfs(int[] nums){
+        if(ans.size() == n){
+            res.add(new ArrayList(ans));
+            return;
+        }
+        for(int i = 0; i < n; ++ i){
+            if(used[i] == false){
+                ans.add(nums[i]);
+                used[i] = true;
+                dfs(nums);
+                used[i] = false;
+                ans.removeLast();
+            }
+        }
+    }
+}
+```
 
 
