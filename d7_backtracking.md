@@ -385,4 +385,32 @@ class Solution {
 }
 ```
 
+# 90.子集II
+
+与之前的 40.组合总和II 解法相同，但没有达到目标数的要求，更简单。
+
+```java
+class Solution {
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    List<Integer> ans = new ArrayList<>();
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        dfs(nums, 0);
+        return res;
+    }
+
+    public void dfs(int[] nums, int beg){
+        res.add(new ArrayList(ans));
+        for(int i = beg; i < nums.length; ++ i){
+            if(i > beg && (nums[i-1] == nums[i])){
+                continue;
+            }
+            ans.add(nums[i]);
+            dfs(nums, i + 1);
+            ans.remove(ans.size() - 1);
+        }
+    }
+}
+```
+
 
