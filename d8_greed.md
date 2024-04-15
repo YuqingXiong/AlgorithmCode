@@ -86,3 +86,21 @@ class Solution {
     }
 }
 ```
+# 122.买卖股票的最佳时机 II
+
+一旦股票上涨就在前一天买入，后一天卖出
+
+后面有更高的价格，可以在之前卖出的时候买入
+
+```java
+class Solution {
+    public int maxProfit(int[] prices) {
+        int res = 0;
+        for(int i = 1; i < prices.length; ++i){
+            int diff = prices[i] - prices[i-1];
+            res +=  diff > 0 ? diff : 0; 
+        }
+        return res;
+    }
+}
+```
