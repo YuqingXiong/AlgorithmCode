@@ -104,3 +104,47 @@ class Solution {
     }
 }
 ```
+
+# 55.跳跃游戏
+
+贪心：
+
+当前位置可以到达的最远地方是 i + num[i], 在[i, i+num[i]]区间内又可以跳到更远的地方，所以不断更新最远的地方，判断是否达到最右边
+
+```java
+class Solution {
+    public boolean canJump(int[] nums) {
+        int n = nums.length, maxR = 0;
+        for(int i = 0; i < n; ++ i){
+            if(i > maxR) return false;
+            maxR = Math.max(maxR, i + nums[i]);
+        }
+        return true;
+    }
+}
+```
+
+
+我的思想：
+
+查看数字 0 是否可被跳过，如果所有最右的0可以被跳过则可以到达最右端
+
+```java
+class Solution {
+  public boolean canJump(int[] nums) {
+    int n = nums.length;
+    int zero_idx = -1;
+    for(int i = n - 2; i >= 0; --i){
+      if(zero_idx == -1 && nums[i] == 0){
+        zero_idx = i;
+      }else if(zero_idx != -1){
+        if(nums[i] > zero_idx - i){
+          zero_idx = -1;
+        }
+      }
+    }
+    if(zero_idx == -1) return true;
+    return false;
+  }
+}
+```
