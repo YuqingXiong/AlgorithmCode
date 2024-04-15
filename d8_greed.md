@@ -59,3 +59,30 @@ class Solution {
     }
 }
 ```
+
+
+# 53.最大子序和
+
+连续子序列的和最大：
+- sum加上当前值 num[i] 比 num[i] 大，那么加上是比不加上好的
+- sum加上当前值 num[i] 比 num[i] 小，那么说明sum是个负数，不如重新从num[i]开始
+- 此过程不断更新 res 取最大值
+
+```java
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int sum = 0;
+        int res = nums[0];
+        for(int i = 0; i < nums.length; ++i){
+            sum += nums[i];
+            if(sum < nums[i]){
+                sum = nums[i];
+            }
+            if(sum > res){
+                res = sum;
+            }
+        }
+        return res;
+    }
+}
+```
