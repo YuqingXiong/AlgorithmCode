@@ -148,3 +148,56 @@ class Solution {
   }
 }
 ```
+
+# 45.跳跃游戏 II
+
+```
+[2,3,1,1,4]
+```
+
+每次step可以在区间[i, end]中选一个地点进行跳跃，每跳跃一次从 i 到达新的地方 num[i]+i ，计算这次 step 能到达的最远地方 maxR
+
+当这次step跳完，也就是 i 大于了 end，此时开启下一次跳跃，即 ++step，这次跳跃的边界 end 是上次跳跃计算得到的最远地方 maxR
+
+- 在区间中跳跃得到最大值maxR，作为下次跳跃的区间边界
+
+化简：
+```java
+class Solution {
+  public int jump(int[] nums) {
+    int step = 0;
+    int n = nums.length;
+    if(n == 1) return 0;
+    int maxR = 0, end = 0;
+    for(int i = 0; i < n; ++ i){
+      if(i > end){
+        end = maxR;
+        ++step;
+      }
+      maxR = Math.max(maxR, i + nums[i]);
+    }
+    return step;
+  }
+}
+```
+
+```java
+class Solution {
+    public int jump(int[] nums) {
+        int step = 0;
+        int n = nums.length;
+        if(n == 1) return 0;
+        int maxR = 0, end = 0;
+        for(int i = 0; i < n; ++ i){
+            for(int j = i; j <= end; ++ j){
+                maxR = Math.max(maxR, j + nums[j]);
+            }
+            i = end;
+            end = maxR;
+            ++step;
+            if(maxR >= n - 1) break;
+        }
+        return step;
+    }
+}
+```
