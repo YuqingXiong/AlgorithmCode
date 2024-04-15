@@ -84,3 +84,4 @@
   - 47.全排列II
 - 贪心题目与题解：[d8_greed](https://github.com/YuqingXiong/AlgorithmCode/tree/master/d8_greed.md)
   - 455.分发饼干
+  - 376.摆动序列
