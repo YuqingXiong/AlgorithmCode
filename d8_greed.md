@@ -201,3 +201,68 @@ class Solution {
     }
 }
 ```
+
+# 134.加油站
+
+贪心：
+
+用 加油量 - 耗油量 得到当前站点是 正 还是 负
+
+起始点一定是 正（=0） 的，因为需要去往下一个站点
+
+假设一个正的位置为起始点，如果后面累计损耗后为负数，说明这个起始点无法完成环绕一圈。此时应该选择后面的 正 数为新的起始点
+
+当 i 回到记录的起始点时，说明完成了环绕一周
+
+```java
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = cost.length;
+        for(int i = 0; i < n; ++i){
+            cost[i] = gas[i] - cost[i];
+        }
+        int ans = -1, sum = 0;
+        for(int i = 0; i < n*2; ++i){
+            if(i%n == ans){
+                break;
+            }
+            if(ans == -1 && cost[i%n] >= 0){
+                ans = i;
+            }
+            sum += cost[i%n];
+            if(sum < 0){
+                ans = -1;
+                sum = 0;
+            }
+        }
+        return ans>n?-1:ans;
+    }
+}
+```
+
+更优雅的：
+
+差值累加大于 0 则一定存在起始点满足要求。只需要在 sum 小于 0 的时候更新答案就行：
+
+```java
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = cost.length;
+        int totalSum = 0;
+        for(int i = 0; i < n; ++i){
+            cost[i] = gas[i] - cost[i];
+            totalSum += cost[i];
+        }
+        if(totalSum < 0) return -1;
+        int ans = 0, sum = 0;
+        for(int i = 0; i < n; ++i){
+            sum += cost[i];
+            if(sum < 0){
+                ans = i+1;
+                sum = 0;
+            }
+        }
+        return ans;
+    }
+}
+```
