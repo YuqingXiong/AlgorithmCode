@@ -266,3 +266,36 @@ class Solution {
     }
 }
 ```
+
+# 135.分发糖果
+
+先从左往右遍历一遍，确定比左边孩子大的分到更多的糖果
+
+再从右往左遍历一遍，确定比右边孩子大的分到更多的糖果（同时要满足比左边孩子大的需求，所以需要取左右分得糖果的最大值）
+
+```java
+class Solution {
+    public int candy(int[] ratings) {
+        int n = ratings.length;
+        int[] ans = new int[n];
+        int res = 0;
+        ans[0] = 1;
+        for(int i = 1; i < n; ++ i){
+            if(ratings[i] > ratings[i-1]){
+                ans[i] = ans[i-1] + 1;
+            }else{
+                ans[i] = 1;
+            }
+        }
+        for(int i = n-2; i >= 0; --i){
+            if(ratings[i] > ratings[i+1]){
+                ans[i] = Math.max(ans[i+1] + 1, ans[i]);
+            }
+        }
+        for(int i = 0; i < n; ++ i){
+            res += ans[i];
+        }
+        return res;
+    }
+}
+```
