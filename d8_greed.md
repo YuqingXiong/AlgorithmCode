@@ -299,3 +299,34 @@ class Solution {
     }
 }
 ```
+# 860.柠檬水找零
+分类讨论
+
+找零钱，记录现在的5元面值和10元面值的数量，贪心的优先找10元面值的
+
+```java
+class Solution {
+    public boolean lemonadeChange(int[] bills) {
+        int num5 = 0, num10 = 0;
+        for(int i = 0; i < bills.length; ++i){
+            if(bills[i] == 5) {
+                ++num5;
+            }else if(bills[i] == 10){
+                --num5;
+                ++num10;
+            }else{
+                if(num10 > 0){
+                    --num10;
+                    --num5;
+                }else{
+                    num5 -= 3;
+                }
+            }
+            if(num5 < 0 || num10 < 0){
+                break;
+            }
+        }
+        return (num5 < 0 || num10 < 0) ? false : true;
+    }
+}
+```
