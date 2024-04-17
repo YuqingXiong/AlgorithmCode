@@ -330,3 +330,26 @@ class Solution {
     }
 }
 ```
+# 406.根据身高重建队列
+
+[h,k]记录身高h和前面比h大的个数k
+
+1. 按照身高降序排序后，比[h,k]高的个的人一定在它前面，但是前面可能有大于k个比他高的人；（所以等前面的人确定好了位置后，我们再根据下标k插入）
+2. 按照排完序的顺序，把 k 当作下标再次插入时，保证了前面刚好有k个人比他高
+
+```java
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        Arrays.sort(people, (a, b) -> {
+            if(b[0] == a[0]) return a[1]-b[1];
+            return b[0]-a[0];
+        });
+
+        List<int[]> ans = new LinkedList<>();
+        for(int i = 0; i < people.length; ++i){
+            ans.add(people[i][1], people[i]);
+        }
+        return ans.toArray(new int[people.length][]);
+    }
+}
+```
