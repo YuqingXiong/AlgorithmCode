@@ -375,3 +375,35 @@ class Solution {
     }
 }
 ```
+
+# 1005.K 次取反后最大化的数组和
+
+1. 首先反转负数
+2. k有剩余，说明现在都是正数
+   3. k为偶数，则保持现状，所有数为正已经最大了
+   4. k为奇数，则选择一个最小的正数，反转为负数
+
+```java
+class Solution {
+    public int largestSumAfterKNegations(int[] nums, int k) {
+        int minAbs = 100, ans = 0;
+        Arrays.sort(nums);
+        for(int i = 0; i < nums.length; ++ i){
+            if(nums[i] < 0 && k > 0){
+                --k;
+                nums[i] = -nums[i];
+            }
+            if(minAbs > Math.abs(nums[i])){
+                minAbs = Math.abs(nums[i]);
+            }
+            ans += nums[i];
+        }
+        if(k > 0){
+            if(k%2 == 1){
+                ans -= 2*minAbs;
+            }
+        }
+        return ans;
+    }
+}
+```
