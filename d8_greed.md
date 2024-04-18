@@ -407,3 +407,31 @@ class Solution {
     }
 }
 ```
+
+# 435.无重叠区间
+
+尽可能的保留多个区间。左右端点排序都行
+
+1. 按照右端点排序时，从左往右遍历；（此时区间向左延申，为了避免保留后面的区间而覆盖了多个前面的区间，所以左往右：`|==\=|__|==|______\` : \__\ 区间把 两个\==\ 区间覆盖了
+   2. 如果当前区间的左边界大于前面一个保留区间的右边界，则当前区间是新的保留区间
+2. 同理，按照左端点排序时，从右往左遍历；
+   1. 如果当前区间的右边界小于后面一个保留区间的左边界，则当前区间是新的保留区间
+
+```java
+class Solution {
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a, b)->{
+            if(a[1] == b[1]) return a[0]-b[0];
+            return a[1]-b[1];
+        });
+        int ans = 1, rlim = intervals[0][1];
+        for(int i = 1; i < intervals.length; ++i){
+            if(intervals[i][0] >= rlim){
+                ++ans;
+                rlim = intervals[i][1];
+            }
+        }
+        return intervals.length - ans;
+    }
+}
+```
